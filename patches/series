@@ -50,24 +50,24 @@ coverity-model.patch
 #   A '*' indicates a patch which should be suggested for backport upstream
 
 # Patches from staging-4.19
-backport-3a9e5a93e6ed.patch #   2024-12-16 12:32:19 - x86emul: MOVBE requires a memory operand
-backport-60573721c5f8.patch #   2024-12-16 12:33:07 - libs/guest: Fix migration compatibility with a security-patched Xen 4.13
-backport-fbe3ec72dc0d.patch #   2024-12-16 12:33:17 - tools/ocaml: Specify rpath correctly for ocamlmklib
-backport-c41c22bf8e9f.patch #   2024-12-17 11:46:29 - x86/io-apic: prevent early exit from i8259 loop detection
-backport-0a14438052e6.patch #   2025-01-21 08:17:44 - tools/xg: increase LZMA_BLOCK_SIZE for uncompressing the kernel
-backport-816235e311e1.patch #   2025-01-21 08:18:08 - x86/spec-ctrl: Support for SRSO_U/S_NO and SRSO_MSR_FIX
-backport-1b88dc9afcac.patch #   2025-01-21 08:18:42 - x86/traps: Rework LER initialisation and support Zen5/Diamond Rapids
-backport-71d626f2f7da.patch #   2025-01-21 08:19:14 - x86/amd: Misc setup for Fam1Ah processors
-backport-4abf7f1d6174.patch #   2025-01-21 08:19:39 - x86emul: VCVT{,U}DQ2PD ignores embedded rounding
-backport-4df28706ad87.patch #   2025-01-21 08:19:56 - x86emul: correct put_fpu()'s segment selector handling
-backport-49c3324f3737.patch #   2025-02-17 12:20:14 - x86/iommu: check for CMPXCHG16B when enabling IOMMU
-backport-457b9e11fa13.patch #   2025-02-17 12:20:38 - iommu/amd: atomically update IRTE
-backport-ebc8b4a4508a.patch #   2025-02-17 12:22:24 - radix-tree: purge node allocation override hooks
-backport-46e3e9d73983.patch #   2025-02-17 12:23:00 - radix-tree: introduce RADIX_TREE{,_INIT}()
-backport-e801a86d5eb2.patch #   2025-02-17 12:23:27 - x86/shutdown: offline APs with interrupts disabled on all CPUs
-backport-30aadc8dbc9a.patch #   2025-02-17 12:23:50 - x86/smp: perform disabling on interrupts ahead of AP shutdown
-backport-eae35da8f4c4.patch #   2025-02-17 12:24:03 - x86/pci: disable MSI(-X) on all devices at shutdown
-backport-93302bb88855.patch #   2025-02-17 12:24:23 - x86/iommu: disable interrupts at shutdown
+#backport-3a9e5a93e6ed.patch #   2024-12-16 12:32:19 - x86emul: MOVBE requires a memory operand
+#backport-60573721c5f8.patch #   2024-12-16 12:33:07 - libs/guest: Fix migration compatibility with a security-patched Xen 4.13
+#backport-fbe3ec72dc0d.patch #   2024-12-16 12:33:17 - tools/ocaml: Specify rpath correctly for ocamlmklib
+#backport-c41c22bf8e9f.patch #   2024-12-17 11:46:29 - x86/io-apic: prevent early exit from i8259 loop detection
+#backport-0a14438052e6.patch #   2025-01-21 08:17:44 - tools/xg: increase LZMA_BLOCK_SIZE for uncompressing the kernel
+#backport-816235e311e1.patch #   2025-01-21 08:18:08 - x86/spec-ctrl: Support for SRSO_U/S_NO and SRSO_MSR_FIX
+#backport-1b88dc9afcac.patch #   2025-01-21 08:18:42 - x86/traps: Rework LER initialisation and support Zen5/Diamond Rapids
+#backport-71d626f2f7da.patch #   2025-01-21 08:19:14 - x86/amd: Misc setup for Fam1Ah processors
+#backport-4abf7f1d6174.patch #   2025-01-21 08:19:39 - x86emul: VCVT{,U}DQ2PD ignores embedded rounding
+#backport-4df28706ad87.patch #   2025-01-21 08:19:56 - x86emul: correct put_fpu()'s segment selector handling
+#backport-49c3324f3737.patch #   2025-02-17 12:20:14 - x86/iommu: check for CMPXCHG16B when enabling IOMMU
+#backport-457b9e11fa13.patch #   2025-02-17 12:20:38 - iommu/amd: atomically update IRTE
+#backport-ebc8b4a4508a.patch #   2025-02-17 12:22:24 - radix-tree: purge node allocation override hooks
+#backport-46e3e9d73983.patch #   2025-02-17 12:23:00 - radix-tree: introduce RADIX_TREE{,_INIT}()
+#backport-e801a86d5eb2.patch #   2025-02-17 12:23:27 - x86/shutdown: offline APs with interrupts disabled on all CPUs
+#backport-30aadc8dbc9a.patch #   2025-02-17 12:23:50 - x86/smp: perform disabling on interrupts ahead of AP shutdown
+#backport-eae35da8f4c4.patch #   2025-02-17 12:24:03 - x86/pci: disable MSI(-X) on all devices at shutdown
+#backport-93302bb88855.patch #   2025-02-17 12:24:23 - x86/iommu: disable interrupts at shutdown
 
 # Patches from staging, 4.20 dev cycle
 backport-b25b28ede1cb.patch #   2024-07-24 18:24:56 - hvmloader: Use fastcall everywhere
