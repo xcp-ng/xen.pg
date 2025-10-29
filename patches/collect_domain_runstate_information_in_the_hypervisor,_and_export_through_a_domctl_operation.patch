@@ -1,20 +1,23 @@
 Collect domain runstate information in the hypervisor, and export
+
+From: Yann Dirson <yann.dirson@vates.tech>
 through a domctl operation.
 
+
 diff --git a/tools/flask/policy/modules/dom0.te b/tools/flask/policy/modules/dom0.te
-index 16b8c9646d1b..bc7137f1d93d 100644
+index f148bfbf27..12f6455398 100644
 --- a/tools/flask/policy/modules/dom0.te
 +++ b/tools/flask/policy/modules/dom0.te
 @@ -41,6 +41,7 @@ allow dom0_t dom0_t:domain {
  allow dom0_t dom0_t:domain2 {
  	set_cpu_policy gettsc settsc setscheduler set_vnumainfo
- 	get_vnumainfo psr_cmt_op psr_alloc get_cpu_policy
+ 	get_vnumainfo psr_cmt_op psr_alloc get_cpu_policy dt_overlay
 +	get_runstate_info
  };
  allow dom0_t dom0_t:resource { add remove };
  
 diff --git a/tools/flask/policy/modules/xen.if b/tools/flask/policy/modules/xen.if
-index 11c1562aa5da..e3e9be2e70be 100644
+index def60da883..fd7eb393aa 100644
 --- a/tools/flask/policy/modules/xen.if
 +++ b/tools/flask/policy/modules/xen.if
 @@ -54,6 +54,7 @@ define(`create_domain_common', `
@@ -22,11 +25,11 @@ index 11c1562aa5da..e3e9be2e70be 100644
  			set_vnumainfo get_vnumainfo cacheflush
  			psr_cmt_op psr_alloc soft_reset
 +			get_runstate_info
- 			resource_map get_cpu_policy };
+ 			resource_map get_cpu_policy vuart_op };
  	allow $1 $2:security check_context;
  	allow $1 $2:shadow enable;
 diff --git a/tools/include/xenctrl.h b/tools/include/xenctrl.h
-index f3f8b77be653..9b997c38355e 100644
+index f3f8b77be6..9b997c3835 100644
 --- a/tools/include/xenctrl.h
 +++ b/tools/include/xenctrl.h
 @@ -445,6 +445,7 @@ typedef struct xc_core_header {
@@ -50,7 +53,7 @@ index f3f8b77be653..9b997c38355e 100644
                                  uint32_t domid,
                                  uint32_t first_port,
 diff --git a/tools/libs/ctrl/xc_domain.c b/tools/libs/ctrl/xc_domain.c
-index 84f7e747d520..176fca0bcbe9 100644
+index 84f7e747d5..176fca0bcb 100644
 --- a/tools/libs/ctrl/xc_domain.c
 +++ b/tools/libs/ctrl/xc_domain.c
 @@ -1339,6 +1339,22 @@ int xc_vcpu_getinfo(xc_interface *xch,
@@ -77,7 +80,7 @@ index 84f7e747d520..176fca0bcbe9 100644
                                  uint32_t domid,
                                  uint32_t first_port,
 diff --git a/tools/ocaml/libs/xc/xenctrl.ml b/tools/ocaml/libs/xc/xenctrl.ml
-index 55923857ec0a..cdba819d71a4 100644
+index 55923857ec..cdba819d71 100644
 --- a/tools/ocaml/libs/xc/xenctrl.ml
 +++ b/tools/ocaml/libs/xc/xenctrl.ml
 @@ -90,6 +90,18 @@ type domctl_create_config =
@@ -109,7 +112,7 @@ index 55923857ec0a..cdba819d71a4 100644
  external domain_ioport_permission: handle -> domid -> int -> int -> bool -> unit
    = "stub_xc_domain_ioport_permission"
 diff --git a/tools/ocaml/libs/xc/xenctrl.mli b/tools/ocaml/libs/xc/xenctrl.mli
-index 9b4b45db3a6d..bf04f11087f1 100644
+index 9b4b45db3a..bf04f11087 100644
 --- a/tools/ocaml/libs/xc/xenctrl.mli
 +++ b/tools/ocaml/libs/xc/xenctrl.mli
 @@ -82,6 +82,18 @@ type domctl_create_config = {
@@ -141,7 +144,7 @@ index 9b4b45db3a6d..bf04f11087f1 100644
    = "stub_xc_domain_ioport_permission"
  external domain_iomem_permission: handle -> domid -> nativeint -> nativeint -> bool -> unit
 diff --git a/tools/ocaml/libs/xc/xenctrl_stubs.c b/tools/ocaml/libs/xc/xenctrl_stubs.c
-index 1d8ef6c68133..1c7939c3263d 100644
+index 1d8ef6c681..1c7939c326 100644
 --- a/tools/ocaml/libs/xc/xenctrl_stubs.c
 +++ b/tools/ocaml/libs/xc/xenctrl_stubs.c
 @@ -534,6 +534,35 @@ CAMLprim value stub_xc_vcpu_getinfo(value xch_val, value domid, value vcpu)
@@ -181,7 +184,7 @@ index 1d8ef6c68133..1c7939c3263d 100644
                                          value cpu)
  {
 diff --git a/xen/common/domain.c b/xen/common/domain.c
-index 34062e24dfb7..0733cf8e62a4 100644
+index 34062e24df..0733cf8e62 100644
 --- a/xen/common/domain.c
 +++ b/xen/common/domain.c
 @@ -636,6 +636,7 @@ struct domain *domain_create(domid_t domid,
@@ -193,7 +196,7 @@ index 34062e24dfb7..0733cf8e62a4 100644
      INIT_PAGE_LIST_HEAD(&d->extra_page_list);
      INIT_PAGE_LIST_HEAD(&d->xenpage_list);
 diff --git a/xen/common/domctl.c b/xen/common/domctl.c
-index ea16b759109e..1e63fa8a54d7 100644
+index ea16b75910..1e63fa8a54 100644
 --- a/xen/common/domctl.c
 +++ b/xen/common/domctl.c
 @@ -866,6 +866,11 @@ long do_domctl(XEN_GUEST_HANDLE_PARAM(xen_domctl_t) u_domctl)
@@ -209,7 +212,7 @@ index ea16b759109e..1e63fa8a54d7 100644
          ret = arch_do_domctl(op, d, u_domctl);
          break;
 diff --git a/xen/common/sched/core.c b/xen/common/sched/core.c
-index c466711e9e63..42d6ce54a435 100644
+index c466711e9e..42d6ce54a4 100644
 --- a/xen/common/sched/core.c
 +++ b/xen/common/sched/core.c
 @@ -259,9 +259,30 @@ static inline void vcpu_urgent_count_update(struct vcpu *v)
@@ -312,7 +315,7 @@ index c466711e9e63..42d6ce54a435 100644
  {
      struct vcpu_runstate_info state = { 0 };
 diff --git a/xen/include/public/domctl.h b/xen/include/public/domctl.h
-index 2a49fe46ce25..75e676d48205 100644
+index 2a49fe46ce..75e676d482 100644
 --- a/xen/include/public/domctl.h
 +++ b/xen/include/public/domctl.h
 @@ -1218,6 +1218,46 @@ struct xen_domctl_dt_overlay {
@@ -379,7 +382,7 @@ index 2a49fe46ce25..75e676d48205 100644
          struct xen_domctl_set_broken_page_p2m set_broken_page_p2m;
          struct xen_domctl_cacheflush        cacheflush;
 diff --git a/xen/include/xen/sched.h b/xen/include/xen/sched.h
-index 50f789610022..46055f103f6c 100644
+index 50f7896100..46055f103f 100644
 --- a/xen/include/xen/sched.h
 +++ b/xen/include/xen/sched.h
 @@ -365,6 +365,8 @@ struct evtchn_port_ops;
@@ -413,12 +416,12 @@ index 50f789610022..46055f103f6c 100644
  void sched_guest_idle(void (*idle) (void), unsigned int cpu);
  void scheduler_enable(void);
 diff --git a/xen/xsm/flask/hooks.c b/xen/xsm/flask/hooks.c
-index 278ad38c2af3..ef9d7d2fdca9 100644
+index 415edee251..b5d88c79c8 100644
 --- a/xen/xsm/flask/hooks.c
 +++ b/xen/xsm/flask/hooks.c
-@@ -838,6 +838,9 @@ static int cf_check flask_domctl(struct domain *d, unsigned int cmd,
-     case XEN_DOMCTL_set_paging_mempool_size:
-         return current_has_perm(d, SECCLASS_DOMAIN, DOMAIN__SETPAGINGMEMPOOL);
+@@ -844,6 +844,9 @@ static int cf_check flask_domctl(struct domain *d, unsigned int cmd,
+     case XEN_DOMCTL_dt_overlay:
+         return current_has_perm(d, SECCLASS_DOMAIN2, DOMAIN2__DT_OVERLAY);
  
 +    case XEN_DOMCTL_get_runstate_info:
 +        return current_has_perm(d, SECCLASS_DOMAIN2, DOMAIN2__GET_RUNSTATE_INFO);
@@ -427,7 +430,7 @@ index 278ad38c2af3..ef9d7d2fdca9 100644
          return avc_unknown_permission("domctl", cmd);
      }
 diff --git a/xen/xsm/flask/policy/access_vectors b/xen/xsm/flask/policy/access_vectors
-index a35e3d4c51e1..35cbd9147edb 100644
+index 78fe37583b..0e10169d37 100644
 --- a/xen/xsm/flask/policy/access_vectors
 +++ b/xen/xsm/flask/policy/access_vectors
 @@ -249,6 +249,8 @@ class domain2
@@ -438,4 +441,4 @@ index a35e3d4c51e1..35cbd9147edb 100644
 +    get_runstate_info
  # XEN_DOMCTL_get_cpu_policy
      get_cpu_policy
- }
+ # XEN_DOMCTL_vuart_op

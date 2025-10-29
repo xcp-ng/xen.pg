@@ -186,7 +186,7 @@ oem-bios-xensource.patch # Can probably all be discarded
 misc-log-guest-consoles.patch
 
 # mixed between components
-mixed-domain-runstates.patch
+collect_domain_runstate_information_in_the_hypervisor,_and_export_through_a_domctl_operation.patch
 xenguest.patch
 xen-vmdebug.patch
 
