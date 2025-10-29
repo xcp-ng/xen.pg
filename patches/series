@@ -95,8 +95,8 @@ quirk-pci-phantom-function-devices.patch # malcolmc
 
 # Hpet improvements v5
 0001-x86-hpet-Pre-cleanup.patch
-0002-x86-hpet-Use-singe-apic-vector-rather-than-irq_descs.patch
-0003-x86-hpet-Post-cleanup.patch
+#0002-x86-hpet-Use-singe-apic-vector-rather-than-irq_descs.patch
+#0003-x86-hpet-Post-cleanup.patch
 
 0002-libxc-retry-shadow-ops-if-EBUSY-is-returned.patch
 
@@ -143,7 +143,7 @@ tweak-sc-policy.patch
 disable-core-parking.patch
 remove-info-leak.patch
 
-0001-Allocate-space-in-structs-pre-emptively-to-increase-.patch
+#0001-Allocate-space-in-structs-pre-emptively-to-increase-.patch
 
 0001-x86-mm-partially-revert-37201c62-make-logdirty-and-i.patch
 
