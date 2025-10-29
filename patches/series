@@ -100,8 +100,8 @@ quirk-pci-phantom-function-devices.patch # malcolmc
 
 0002-libxc-retry-shadow-ops-if-EBUSY-is-returned.patch
 
-# Grant perf improvements
-avoid-gnt-unmap-tlb-flush-if-not-accessed.patch
+# Grant perf improvements - not building on ARM
+#avoid-gnt-unmap-tlb-flush-if-not-accessed.patch
 
 # Further MB2/EFI fixes
 0001-x86-time-Don-t-use-EFI-s-GetTime-call.patch
@@ -204,12 +204,13 @@ xen-force-software-vmcs-shadow.patch
 0001-x86-vvmx-add-initial-PV-EPT-support-in-L0.patch
 use-msr-ll-instead-of-vmcs-efer.patch
 
-revert-4a7e71aa0851-partial.patch
-add-pv-iommu-headers.patch
-add-pv-iommu-local-domain-ops.patch
-add-pv-iommu-foreign-support.patch
-upstream-pv-iommu-tools.patch
-Add-PV-IOMMU-elf-note.patch
+# "perf fix" + Nvidia vgpu, not building on ARM
+#revert-4a7e71aa0851-partial.patch
+#add-pv-iommu-headers.patch
+#add-pv-iommu-local-domain-ops.patch
+#add-pv-iommu-foreign-support.patch
+#upstream-pv-iommu-tools.patch
+#Add-PV-IOMMU-elf-note.patch
 
 # Intel GVT-g debt
 allow-rombios-pci-config-on-any-host-bridge.patch
