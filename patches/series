@@ -222,6 +222,14 @@ xen-spec-ctrl-utility.patch
 # vTPM support
 vtpm-ppi-acpi-dsm.patch
 
+# ARM Ampere MtCollins
+0002-arm-acpi-don-t-expose-the-ACPI-IORT-SMMUv3-entry-to-.patch
+0001-xen-configs-introduce-mtcollins_defconfig.patch
+forge_a_debug_config_for_mtcollins.patch
+patch_wip-no-xenguest-arm.patch
+patch_wip-no-viridian-arm.patch
+patch_workaround-current_text_addr-x86-asm.patch
+arm-build.patch
 ################################################################################
 # Debugging patches
 #
