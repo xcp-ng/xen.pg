@@ -230,6 +230,13 @@ patch_wip-no-xenguest-arm.patch
 patch_wip-no-viridian-arm.patch
 patch_workaround-current_text_addr-x86-asm.patch
 arm-build.patch
+0001-Boot-debug-traces.patch
+acpi-debug.patch
+0001-gic-debug.patch
+0001-acpi-arm-relax-MADT-GICC-entry-length-check-to-suppo.patch
+0001-Add-debug-traces-to-DOM0-loading.patch
+0001-tools-ocaml-Provide-ARM-implementations-of-xenctrl-s.patch
+
 ################################################################################
 # Debugging patches
 #
