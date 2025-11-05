@@ -233,7 +233,6 @@ arm-build.patch
 0001-Boot-debug-traces.patch
 acpi-debug.patch
 0001-gic-debug.patch
-0001-acpi-arm-relax-MADT-GICC-entry-length-check-to-suppo.patch
 0001-Add-debug-traces-to-DOM0-loading.patch
 0001-tools-ocaml-Provide-ARM-implementations-of-xenctrl-s.patch
 xsa473-1.patch
@@ -250,6 +249,7 @@ xen-gnttbl__redefine_initial_nr_grant_frames_and_allocate_all_initial_nr_grant_f
 xen-gnttbl__print_grant_table_entries_before-after_grant_ref_mapping.patch
 check_how_console_ring_page_is_mapped.patch
 xenstored__add_extra_logs_around_domain_introduction.patch
+from_8768eb17b362121b228224e788983188a075b4a8_mon_sep_17_00_00_00_2001_patch_xen-arm__re-use_the_same_hosts_gicc_header_length.patch
 
 ################################################################################
 # Debugging patches
