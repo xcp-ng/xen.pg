@@ -238,6 +238,18 @@ acpi-debug.patch
 0001-tools-ocaml-Provide-ARM-implementations-of-xenctrl-s.patch
 xsa473-1.patch
 xsa473-2.patch
+0001-Add-debug-in-gnttab_map_grant_ref.patch
+0001-Add-debug-messages-in-xc_dom_gnttab_init-in-libxengu.patch
+arm__add_debug_prints_for_grant_table_and_p2m_entries.patch
+xen-arm__limit_amount_of_p2m_lookup_messages.patch
+xenconsoled__add_debug_log_in_possible_places_of_grant_ref_unmapping.patch
+xen-gnttbl__check_the_content_of_gnttbl_entries_when_unmap_happening.patch
+xen-gnttbl__compilation_fix_for_prev_patch.patch
+xen-gnttbl__add_debug_messages_to_investigate_an_amount_grant_frames.patch
+xen-gnttbl__redefine_initial_nr_grant_frames_and_allocate_all_initial_nr_grant_frames.patch
+xen-gnttbl__print_grant_table_entries_before-after_grant_ref_mapping.patch
+check_how_console_ring_page_is_mapped.patch
+xenstored__add_extra_logs_around_domain_introduction.patch
 
 ################################################################################
 # Debugging patches
